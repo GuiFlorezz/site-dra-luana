@@ -1,3 +1,42 @@
+const siteHeader = document.querySelector('.site-header');
+const menuToggle = document.querySelector('[data-menu-toggle]');
+const mobileMenu = document.querySelector('[data-menu]');
+
+const setMobileMenuOpen = (isOpen, returnFocus = false) => {
+    if (!siteHeader || !menuToggle) return;
+
+    siteHeader.classList.toggle('menu-open', isOpen);
+    menuToggle.setAttribute('aria-expanded', String(isOpen));
+    menuToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
+
+    if (!isOpen && returnFocus) menuToggle.focus();
+};
+
+menuToggle?.addEventListener('click', () => {
+    const isOpen = menuToggle.getAttribute('aria-expanded') === 'true';
+    setMobileMenuOpen(!isOpen);
+});
+
+mobileMenu?.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', () => setMobileMenuOpen(false));
+});
+
+document.addEventListener('pointerdown', (event) => {
+    if (siteHeader?.classList.contains('menu-open') && !siteHeader.contains(event.target)) {
+        setMobileMenuOpen(false);
+    }
+});
+
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && siteHeader?.classList.contains('menu-open')) {
+        setMobileMenuOpen(false, true);
+    }
+});
+
+window.matchMedia('(min-width: 761px)').addEventListener('change', (event) => {
+    if (event.matches) setMobileMenuOpen(false);
+});
+
 const carousel = document.querySelector('[data-carousel]');
 const previousButton = document.querySelector('[data-carousel-prev]');
 const nextButton = document.querySelector('[data-carousel-next]');
