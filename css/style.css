@@ -179,6 +179,10 @@ section[id] {
     color: var(--blue);
 }
 
+.menu-toggle {
+    display: none;
+}
+
 .hero {
     position: relative;
     display: grid;
@@ -295,8 +299,7 @@ section[id] {
     height: 96%;
     align-items: flex-end;
     justify-content: center;
-    overflow: hidden;
-    border-radius: 48% 48% 12px 12px;
+    overflow: visible;
 }
 
 .portrait-frame img {
@@ -305,6 +308,11 @@ section[id] {
     height: 100%;
     object-fit: contain;
     object-position: center bottom;
+    filter: drop-shadow(0 0 18px rgb(248 245 239 / 62%)) drop-shadow(0 0 34px rgb(128 96 68 / 30%));
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%), linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    -webkit-mask-composite: destination-in;
+    mask-image: linear-gradient(to bottom, #000 0%, #000 58%, transparent 100%), linear-gradient(to right, transparent 0%, #000 14%, #000 86%, transparent 100%);
+    mask-composite: intersect;
 }
 
 .floating-card {
@@ -975,6 +983,41 @@ section[id] {
     line-height: 1.7;
 }
 
+.contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.1rem 1.4rem;
+}
+
+.contact-actions .button {
+    gap: .65rem;
+}
+
+.contact-actions .button-secondary {
+    border: 1px solid #806044;
+    background: transparent;
+    color: #594632;
+    box-shadow: none;
+}
+
+.contact-actions .button-secondary:hover,
+.contact-actions .button-secondary:focus-visible {
+    background: #e4d6c5;
+}
+
+.location-map-link {
+    color: #594632;
+    font-size: .82rem;
+    font-weight: 700;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+}
+
+.location-map-link span {
+    margin-left: .2rem;
+}
+
 .map-frame {
     min-height: 390px;
     overflow: hidden;
@@ -1091,21 +1134,82 @@ html.reveal-ready [data-reveal-delay="3"] { transition-delay: .36s; }
 
 @media (max-width: 760px) {
     .site-header {
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
         justify-content: space-between;
+        align-items: center;
         gap: .8rem;
         padding: 1rem 1.2rem;
     }
 
     .site-header nav {
-        order: 3;
-        flex-basis: 100%;
-        overflow-x: auto;
-        scrollbar-width: none;
+        position: absolute;
+        top: calc(100% + .55rem);
+        right: 1rem;
+        display: none;
+        width: min(22rem, calc(100vw - 2rem));
+        padding: .65rem;
+        border: 1px solid #e8dfd4;
+        border-radius: 16px;
+        background: #fffdfa;
+        box-shadow: 0 18px 48px rgb(56 47 40 / 16%);
     }
 
-    .site-header nav::-webkit-scrollbar {
-        display: none;
+    .site-header.menu-open nav {
+        display: block;
+        animation: menu-panel-in .18s ease-out both;
+    }
+
+    @keyframes menu-panel-in {
+        from { opacity: 0; transform: translateY(-6px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .menu-toggle {
+        display: inline-flex;
+        width: 2.75rem;
+        min-height: 2.75rem;
+        align-items: center;
+        justify-content: center;
+        padding: .55rem;
+        border: 1px solid #e2d8cc;
+        border-radius: 999px;
+        background: #fffdfa;
+        color: var(--ink);
+        cursor: pointer;
+        font: inherit;
+        font-size: .78rem;
+        font-weight: 600;
+    }
+
+    .menu-toggle:focus-visible {
+        outline: 2px solid var(--blue);
+        outline-offset: 3px;
+    }
+
+    .menu-toggle-icon {
+        display: grid;
+        gap: 4px;
+    }
+
+    .menu-toggle-icon span {
+        display: block;
+        width: 1rem;
+        height: 2px;
+        border-radius: 2px;
+        background: currentColor;
+        transition: transform .18s, opacity .18s;
+    }
+
+    .menu-open .menu-toggle-icon span:first-child {
+        transform: translateY(6px) rotate(45deg);
+    }
+
+    .menu-open .menu-toggle-icon span:nth-child(2) {
+        opacity: 0;
+    }
+
+    .menu-open .menu-toggle-icon span:last-child {
+        transform: translateY(-6px) rotate(-45deg);
     }
 
     .header-cta {
@@ -1113,14 +1217,23 @@ html.reveal-ready [data-reveal-delay="3"] { transition-delay: .36s; }
     }
 
     .nav-list {
-        width: max-content;
-        min-width: 100%;
-        justify-content: space-between;
-        gap: 1rem;
+        display: grid;
+        gap: .2rem;
+        margin: 0;
+        padding: 0;
+        list-style: none;
     }
 
     .nav-list a {
-        font-size: .72rem;
+        display: block;
+        padding: .8rem .9rem;
+        border-radius: 10px;
+        font-size: .88rem;
+    }
+
+    .nav-list a:hover,
+    .nav-list a:focus-visible {
+        background: #f4eee6;
     }
 
     .hero {
@@ -1131,6 +1244,8 @@ html.reveal-ready [data-reveal-delay="3"] { transition-delay: .36s; }
     }
 
     .hero-copy {
+        width: min(100%, 34rem);
+        margin-inline: auto;
         padding-top: 1rem;
     }
 
@@ -1226,9 +1341,10 @@ html.reveal-ready [data-reveal-delay="3"] { transition-delay: .36s; }
     }
 
     .treatments-carousel {
-        grid-auto-columns: minmax(78vw, 1fr);
+        display: flex;
         margin-right: -1.4rem;
         padding-right: 1.4rem;
+        scroll-padding-inline: .1rem 1.4rem;
     }
 
     .carousel-layout > .carousel-button {
@@ -1236,6 +1352,7 @@ html.reveal-ready [data-reveal-delay="3"] { transition-delay: .36s; }
     }
 
     .treatment-card {
+        flex: 0 0 min(78vw, 22rem);
         min-height: 280px;
     }
 
@@ -1247,15 +1364,6 @@ html.reveal-ready [data-reveal-delay="3"] { transition-delay: .36s; }
 @media (max-width: 420px) {
     .brand {
         font-size: .78rem;
-    }
-
-    .nav-list {
-        min-width: max-content;
-        gap: .65rem;
-    }
-
-    .nav-list a {
-        font-size: .66rem;
     }
 
     .hero {
@@ -1314,6 +1422,10 @@ iframe {
         padding-bottom: 4.25rem;
     }
 
+    .hero-copy {
+        text-align: center;
+    }
+
     .hero h1 {
         font-size: clamp(2.8rem, 12vw, 4rem);
         letter-spacing: -.055em;
@@ -1321,12 +1433,29 @@ iframe {
 
     .hero-subtitle {
         max-width: 34rem;
+        margin-right: auto;
+        margin-left: auto;
         font-size: .95rem;
+    }
+
+    .hero-note {
+        margin-right: auto;
+        margin-left: auto;
     }
 
     .hero-visual {
         min-height: 300px;
         height: min(85vw, 420px);
+    }
+
+    .hero-visual::before {
+        inset: 0 -8vw 0 4%;
+        border-radius: 34% 0 0 34%;
+    }
+
+    .portrait-frame {
+        width: min(62%, 290px);
+        height: 90%;
     }
 
     .floating-card {
@@ -1342,9 +1471,11 @@ iframe {
     }
 
     .hero-bottom {
-        left: 1rem;
-        gap: .45rem;
-        font-size: .58rem;
+        display: none;
+    }
+
+    .visual-caption {
+        display: none;
     }
 
     .about-section {
@@ -1384,9 +1515,13 @@ iframe {
     }
 
     .treatments-carousel {
-        grid-auto-columns: minmax(82vw, 1fr);
+        scroll-padding-right: 1.2rem;
         margin-right: -1.2rem;
         padding-right: 1.2rem;
+    }
+
+    .treatment-card {
+        flex-basis: min(82vw, 22rem);
     }
 
     .results-grid {
@@ -1440,6 +1575,31 @@ iframe {
         padding: .9rem 1rem;
         font-size: .8rem;
     }
+
+    .contact-actions {
+        align-items: stretch;
+        flex-direction: column;
+        gap: .85rem;
+    }
+
+    .contact-actions .button {
+        width: 100%;
+        justify-content: space-between;
+    }
+
+    .location-map-link {
+        align-self: flex-start;
+        margin-top: .2rem;
+    }
+
+    .site-footer {
+        align-items: center;
+        text-align: center;
+    }
+
+    .site-footer > * {
+        max-width: 100%;
+    }
 }
 
 @media (max-width: 380px) {
@@ -1450,14 +1610,6 @@ iframe {
     .brand {
         gap: .45rem;
         font-size: .74rem;
-    }
-
-    .nav-list {
-        gap: .85rem;
-    }
-
-    .nav-list a {
-        font-size: .64rem;
     }
 
     .hero {
@@ -1478,7 +1630,13 @@ iframe {
     }
 
     .treatments-carousel {
-        grid-auto-columns: 86vw;
+        scroll-padding-right: 1rem;
+        margin-right: -1rem;
+        padding-right: 1rem;
+    }
+
+    .treatment-card {
+        flex-basis: 86vw;
     }
 
     .before-after {

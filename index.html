@@ -18,7 +18,10 @@
         <a class="brand" href="#inicio" aria-label="Dra. Luana Lunke, início">
             <span>Dra. Luana Lunke</span>
         </a>
-        <nav aria-label="Navegação principal">
+        <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="primary-navigation" aria-label="Abrir menu">
+            <span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+        </button>
+        <nav id="primary-navigation" aria-label="Navegação principal" data-menu>
             <ul class="nav-list">
                 <li><a href="#tratamentos">Tratamentos</a></li>
                 <li><a href="#sobre">Sobre</a></li>
@@ -42,7 +45,7 @@
 
             <div class="hero-visual" data-reveal="right" data-reveal-delay="2">
                 <div class="portrait-frame">
-                    <img src="img/dr%20luana.png" alt="Dra. Luana Lunke sorrindo, usando blazer rosa">
+                    <img src="img/Retrato Feminino em Close-up com Fundo Transparente.png" alt="Dra. Luana Lunke sorrindo, usando blazer rosa">
                 </div>
                 <div class="floating-card"><span class="sparkle" aria-hidden="true">✦</span><span>Cuidado<br>que valoriza<br>sua essência</span></div>
                 <span class="visual-caption">BELEZA COM NATURALIDADE</span>
@@ -188,7 +191,11 @@
                 <p class="section-kicker">Contato e localização</p>
                 <h2 id="location-title">Vamos conversar?</h2>
                 <p>Encontre a clínica no mapa e planeje sua visita. O mapa está buscando pelo nome da Dra. Luana; para mostrar o ponto exato, substitua pela localização confirmada da clínica.</p>
-                <a class="button" href="https://www.google.com/maps/search/?api=1&amp;query=Dra.+Luana+Lunke" target="_blank" rel="noopener noreferrer">Abrir no Google Maps <span aria-hidden="true">↗</span></a>
+                <div class="contact-actions" aria-label="Canais de contato">
+                    <a class="button" href="https://wa.me/5551999296778?text=Ol%C3%A1%2C%20Dra.%20Luana!%20Gostaria%20de%20mais%20informa%C3%A7%C3%B5es." target="_blank" rel="noopener noreferrer">Chamar no WhatsApp <span aria-hidden="true">↗</span></a>
+                    <a class="button button-secondary" href="https://www.instagram.com/draluanalunkes/" target="_blank" rel="noopener noreferrer">Instagram <span aria-hidden="true">↗</span></a>
+                    <a class="location-map-link" href="https://www.google.com/maps/search/?api=1&amp;query=Dra.+Luana+Lunke" target="_blank" rel="noopener noreferrer">Abrir no Google Maps <span aria-hidden="true">↗</span></a>
+                </div>
             </div>
             <div class="map-frame" data-reveal="right">
                 <iframe title="Google Maps buscando Dra. Luana Lunke" src="https://www.google.com/maps?q=Dra.+Luana+Lunke&amp;output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade" allowfullscreen></iframe>
